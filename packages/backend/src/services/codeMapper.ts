@@ -7,7 +7,7 @@ import {
 import { v4 as uuidv4 } from 'uuid';
 
 // Simulated code mappings database
-const CODE_MAPPINGS: Record<string, Record<string, CodeMapping[]>> = {
+const CODE_MAPPINGS: Record<string, CodeMapping[]> = {
   'ICD10-SNOMED': [
     {
       sourceCode: 'E11.9',
