@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import { schemaRouter } from './api/schema';
+import { transformRouter } from './api/transform';
 import { errorHandler } from './api/middleware';
 
 const app = express();
@@ -24,8 +25,9 @@ app.get('/health', (req, res) => {
     success: true,
     data: {
       status: 'healthy',
-      service: 'schema-generator',
+      service: 'healthit-care-api',
       version: '1.0.0',
+      applications: ['schema-generator', 'message-transformer'],
     },
     meta: {
       timestamp: new Date().toISOString(),
@@ -36,6 +38,7 @@ app.get('/health', (req, res) => {
 
 // API routes
 app.use('/api/v1/schema', schemaRouter);
+app.use('/api/v1/transform', transformRouter);
 
 // Error handling
 app.use(errorHandler);
@@ -56,8 +59,11 @@ app.use((req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`Schema Generator API running on port ${PORT}`);
+  console.log(`HealthIT-Care API running on port ${PORT}`);
   console.log(`Health check: http://localhost:${PORT}/health`);
+  console.log(`Available APIs:`);
+  console.log(`  - Schema Generator: /api/v1/schema`);
+  console.log(`  - Message Transformer: /api/v1/transform`);
 });
 
 export default app;

@@ -168,3 +168,133 @@ export const DEFAULT_SCHEMA_OPTIONS: SchemaOptions = {
   includeComments: true,
   healthcareCompliance: true,
 };
+
+// =============================================================================
+// Message Transformer Types
+// =============================================================================
+
+export type MessageFormat =
+  | 'hl7v2'
+  | 'fhir-json'
+  | 'fhir-xml'
+  | 'cda'
+  | 'dicom-json'
+  | 'openehr'
+  | 'csv'
+  | 'json';
+
+export interface TransformRequest {
+  id?: string;
+  inputMessage: string;
+  inputFormat: MessageFormat;
+  outputFormat: MessageFormat;
+  options: TransformOptions;
+  createdAt?: string;
+}
+
+export interface TransformOptions {
+  generateTranslationFile: boolean;
+  translationFileFormat: 'xslt' | 'jsonata' | 'mapping-table' | 'cloverleaf-xlt';
+  includeComments: boolean;
+  prettyPrint: boolean;
+  validateOutput: boolean;
+  preserveExtensions: boolean;
+}
+
+export interface TransformResponse {
+  id: string;
+  request: TransformRequest;
+  transformedMessage: string;
+  translationFile: TranslationFile;
+  mappings: FieldMapping[];
+  warnings: TransformWarning[];
+  metadata: TransformMetadata;
+  createdAt: string;
+}
+
+export interface TranslationFile {
+  filename: string;
+  format: string;
+  content: string;
+  description: string;
+}
+
+export interface FieldMapping {
+  sourceField: string;
+  sourcePath: string;
+  targetField: string;
+  targetPath: string;
+  transformation: string;
+  notes?: string;
+}
+
+export interface TransformWarning {
+  severity: 'info' | 'warning' | 'error';
+  message: string;
+  sourceField?: string;
+  recommendation?: string;
+}
+
+export interface TransformMetadata {
+  inputFormat: MessageFormat;
+  outputFormat: MessageFormat;
+  fieldsMapped: number;
+  fieldsUnmapped: number;
+  transformationComplexity: 'simple' | 'moderate' | 'complex';
+  estimatedAccuracy: number;
+}
+
+export const MESSAGE_FORMATS: Record<MessageFormat, { name: string; description: string }> = {
+  'hl7v2': {
+    name: 'HL7 v2.x',
+    description: 'Health Level Seven version 2 messaging standard',
+  },
+  'fhir-json': {
+    name: 'FHIR (JSON)',
+    description: 'Fast Healthcare Interoperability Resources in JSON format',
+  },
+  'fhir-xml': {
+    name: 'FHIR (XML)',
+    description: 'Fast Healthcare Interoperability Resources in XML format',
+  },
+  'cda': {
+    name: 'CDA',
+    description: 'Clinical Document Architecture (HL7 CDA)',
+  },
+  'dicom-json': {
+    name: 'DICOM JSON',
+    description: 'DICOM metadata in JSON format',
+  },
+  'openehr': {
+    name: 'OpenEHR',
+    description: 'OpenEHR archetype-based clinical data',
+  },
+  'csv': {
+    name: 'CSV',
+    description: 'Comma-separated values',
+  },
+  'json': {
+    name: 'Generic JSON',
+    description: 'Generic JSON format',
+  },
+};
+
+export const SUPPORTED_TRANSFORMATIONS: Array<{ from: MessageFormat; to: MessageFormat[] }> = [
+  { from: 'hl7v2', to: ['fhir-json', 'fhir-xml', 'cda', 'json', 'csv'] },
+  { from: 'fhir-json', to: ['hl7v2', 'fhir-xml', 'cda', 'json', 'csv'] },
+  { from: 'fhir-xml', to: ['hl7v2', 'fhir-json', 'cda', 'json'] },
+  { from: 'cda', to: ['fhir-json', 'fhir-xml', 'json'] },
+  { from: 'dicom-json', to: ['fhir-json', 'json'] },
+  { from: 'openehr', to: ['fhir-json', 'json'] },
+  { from: 'csv', to: ['fhir-json', 'json', 'hl7v2'] },
+  { from: 'json', to: ['fhir-json', 'csv'] },
+];
+
+export const DEFAULT_TRANSFORM_OPTIONS: TransformOptions = {
+  generateTranslationFile: true,
+  translationFileFormat: 'xslt',
+  includeComments: true,
+  prettyPrint: true,
+  validateOutput: true,
+  preserveExtensions: false,
+};

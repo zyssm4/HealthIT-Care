@@ -1,9 +1,13 @@
 import {
   SchemaRequest,
   SchemaResponse,
+  TransformResponse,
   ApiResponse,
   SchemaOptions,
+  TransformOptions,
+  MessageFormat,
   DEFAULT_SCHEMA_OPTIONS,
+  DEFAULT_TRANSFORM_OPTIONS,
 } from '@healthit-care/shared';
 
 const API_BASE = '/api/v1';
@@ -76,6 +80,61 @@ export async function analyzeSchema(schema: string): Promise<object> {
 
   if (!data.success || !data.data) {
     throw new Error(data.error?.message || 'Failed to analyze schema');
+  }
+
+  return data.data;
+}
+
+// Message Transformer API
+
+export async function transformMessage(
+  inputMessage: string,
+  inputFormat: MessageFormat,
+  outputFormat: MessageFormat,
+  options?: Partial<TransformOptions>
+): Promise<TransformResponse> {
+  const response = await fetch(`${API_BASE}/transform/convert`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      inputMessage,
+      inputFormat,
+      outputFormat,
+      options: {
+        ...DEFAULT_TRANSFORM_OPTIONS,
+        ...options,
+      },
+    }),
+  });
+
+  const data: ApiResponse<TransformResponse> = await response.json();
+
+  if (!data.success || !data.data) {
+    throw new Error(data.error?.message || 'Failed to transform message');
+  }
+
+  return data.data;
+}
+
+export async function getSupportedFormats(): Promise<object> {
+  const response = await fetch(`${API_BASE}/transform/formats`);
+  const data: ApiResponse<object> = await response.json();
+
+  if (!data.success || !data.data) {
+    return { formats: [] };
+  }
+
+  return data.data;
+}
+
+export async function getSupportedTransformations(): Promise<object> {
+  const response = await fetch(`${API_BASE}/transform/supported`);
+  const data: ApiResponse<object> = await response.json();
+
+  if (!data.success || !data.data) {
+    return { transformations: [] };
   }
 
   return data.data;

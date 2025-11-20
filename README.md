@@ -1,10 +1,22 @@
 # HealthIT-Care
 
-Healthcare IT utility applications for integration professionals. Generate optimized, compliant database schemas and integration artifacts.
+Healthcare IT utility applications for integration professionals. Generate optimized, compliant database schemas and transformation artifacts for integration engines.
+
+## Applications
+
+### 1. SQL Schema Generator
+
+A fullstack application that generates healthcare-compliant database schemas from requirements or existing schemas.
+
+### 2. Message Transformer
+
+Transform healthcare messages between formats (HL7v2, FHIR, CDA, etc.) and generate translation files for integration engines like Infor Cloverleaf.
+
+---
 
 ## Schema Generator
 
-A fullstack application that generates healthcare-compliant database schemas from requirements or existing schemas.
+Generate healthcare-compliant database schemas from requirements or existing schemas.
 
 ### Features
 
@@ -60,7 +72,57 @@ Access the application at `http://your-nas-ip:80`
 | `/api/v1/schema/analyze` | POST | Analyze existing schema |
 | `/api/v1/schema/templates` | GET | Get healthcare templates |
 | `/api/v1/schema/options` | GET | Get default options |
+| `/api/v1/transform/convert` | POST | Transform message between formats |
+| `/api/v1/transform/formats` | GET | Get supported formats |
+| `/api/v1/transform/supported` | GET | Get supported transformations |
 | `/health` | GET | Health check |
+
+---
+
+## Message Transformer
+
+Transform healthcare messages and generate translation files for integration engines.
+
+### Features
+
+- **Format Conversion**: HL7v2, FHIR (JSON/XML), CDA, DICOM, OpenEHR, CSV
+- **Translation File Generation**: XSLT, JSONata, Cloverleaf XLT, Mapping Tables
+- **Field Mappings**: Detailed documentation of all field transformations
+- **Warnings**: Identify unmapped fields and potential data loss
+
+### Supported Transformations
+
+| From | To |
+|------|-----|
+| HL7v2 | FHIR JSON, FHIR XML, CDA, JSON, CSV |
+| FHIR JSON | HL7v2, FHIR XML, CDA, JSON, CSV |
+| FHIR XML | HL7v2, FHIR JSON, CDA, JSON |
+| CDA | FHIR JSON, FHIR XML, JSON |
+| DICOM JSON | FHIR JSON, JSON |
+| OpenEHR | FHIR JSON, JSON |
+| CSV | FHIR JSON, JSON, HL7v2 |
+
+### Translation File Formats
+
+- **XSLT**: XML stylesheet for XML-based transformations
+- **JSONata**: Expression language for JSON transformations
+- **Cloverleaf XLT**: TCL-based translation for Infor Cloverleaf
+- **Mapping Table**: Markdown documentation of field mappings
+
+### Example Transform Request
+
+```json
+{
+  "inputMessage": "MSH|^~\\&|SENDER|...",
+  "inputFormat": "hl7v2",
+  "outputFormat": "fhir-json",
+  "options": {
+    "generateTranslationFile": true,
+    "translationFileFormat": "xslt",
+    "prettyPrint": true
+  }
+}
+```
 
 ### Example Request
 
