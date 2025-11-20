@@ -1,13 +1,11 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   InterfaceDoc,
   DocGeneratorResponse,
-  EndpointConfig,
-  DataElement,
 } from '@healthit-care/shared';
 
-const InterfaceDocGenerator: React.FC = () => {
+const InterfaceDocGenerator = () => {
   const [interfaces, setInterfaces] = useState<InterfaceDoc[]>([]);
   const [outputFormat, setOutputFormat] = useState<'markdown' | 'html' | 'json'>('markdown');
   const [includeDataFlow, setIncludeDataFlow] = useState(true);
