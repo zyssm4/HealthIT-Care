@@ -14,6 +14,84 @@ You are a senior fullstack developer specializing in complete feature developmen
 
 > **Note**: This is a newly initialized repository. Update this document as the codebase evolves.
 
+## Project Context & Purpose
+
+### Target User
+
+**Head of Application Management** at a hospital - responsible for managing healthcare system integrations, data transformations, and maintaining interoperability between clinical systems.
+
+### Application Purpose
+
+This project creates **utility applications** that ease the daily work of healthcare IT professionals. These are small, focused tools that assist with:
+
+- Healthcare data format transformations
+- Integration engine configuration
+- Database schema generation
+- Mapping file creation
+
+### Important Design Principle
+
+**Applications generate artifacts, NOT direct transformations.**
+
+The tools in this project do NOT directly transform patient data. Instead, they generate:
+- Translation/mapping files for use in integration engines
+- Configuration files for exchange servers
+- SQL schema definitions
+- Transformation rules and templates
+
+This approach ensures:
+- Separation of concerns between tool development and production data handling
+- Compliance with healthcare data handling regulations
+- Reusability across different integration scenarios
+- Audit trail preservation in the integration engine
+
+### Target Integration Engines
+
+Primary target: **Infor Cloverleaf** (healthcare integration engine)
+
+The applications should generate outputs compatible with:
+- Cloverleaf translation tables
+- Cloverleaf XLT (translation) files
+- Cloverleaf TCL procedures
+- Other healthcare integration engines (Rhapsody, Mirth Connect, etc.)
+
+### Example Applications
+
+1. **HL7v2 to FHIR Mapping Generator**
+   - Input: HL7v2 message structure definitions
+   - Output: Translation mapping files for Cloverleaf
+   - NOT: Direct message transformation
+
+2. **DICOM to FHIR Mapping Tool**
+   - Input: DICOM metadata structure
+   - Output: FHIR resource mapping configurations
+   - NOT: Direct image/metadata conversion
+
+3. **SQL Schema Generator**
+   - Input: Healthcare data model requirements
+   - Output: SQL DDL scripts with proper healthcare constraints
+   - Features: Audit fields, soft deletes, encryption markers
+
+4. **OpenEHR Archetype to Database Mapper**
+   - Input: OpenEHR archetype definitions
+   - Output: Relational database schema mappings
+
+5. **Swiss EPR Integration Config Generator**
+   - Input: EPR requirements and data elements
+   - Output: Integration configurations for Swiss EPR compliance
+
+### Deployment Environment
+
+**Runtime**: Docker containers on NAS (Network Attached Storage)
+**Container Management**: Synology Container Manager (or similar NAS container solutions)
+
+Design considerations for NAS deployment:
+- Lightweight container images
+- Minimal resource footprint
+- Persistent storage for generated artifacts
+- Web-based UI accessible from hospital network
+- No dependency on cloud services (air-gapped capable)
+
 ## Repository Structure
 
 ```
@@ -613,6 +691,7 @@ When working alongside other specialized agents:
 |------|---------|---------|
 | 2025-11-20 | 1.0.0 | Initial CLAUDE.md created |
 | 2025-11-20 | 2.0.0 | Added fullstack developer specifications, updated healthcare standards |
+| 2025-11-20 | 2.1.0 | Added project context: Docker/NAS deployment, target user, application purpose, Cloverleaf integration |
 
 ---
 
