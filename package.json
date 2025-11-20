@@ -1,0 +1,33 @@
+{
+  "name": "healthit-care",
+  "version": "1.0.0",
+  "description": "Healthcare IT utility applications for integration and schema management",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "dev:backend": "npm run dev -w packages/backend",
+    "dev:frontend": "npm run dev -w packages/frontend",
+    "build": "npm run build -w packages/shared && npm run build -w packages/backend && npm run build -w packages/frontend",
+    "build:shared": "npm run build -w packages/shared",
+    "build:backend": "npm run build -w packages/backend",
+    "build:frontend": "npm run build -w packages/frontend",
+    "test": "npm run test --workspaces --if-present",
+    "lint": "npm run lint --workspaces --if-present",
+    "typecheck": "npm run typecheck --workspaces --if-present",
+    "docker:build": "docker-compose build",
+    "docker:up": "docker-compose up -d",
+    "docker:down": "docker-compose down"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "author": "HealthIT-Care Team",
+  "license": "MIT"
+}
