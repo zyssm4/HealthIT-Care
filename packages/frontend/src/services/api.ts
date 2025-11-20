@@ -6,14 +6,33 @@ import {
   SchemaOptions,
   TransformOptions,
   MessageFormat,
-  DEFAULT_SCHEMA_OPTIONS,
-  DEFAULT_TRANSFORM_OPTIONS,
 } from '@healthit-care/shared';
 
 // Use environment variable for API URL in production, or relative path for development
 const API_BASE = import.meta.env.VITE_API_URL
   ? `${import.meta.env.VITE_API_URL}/api/v1`
   : '/api/v1';
+
+// Default options defined inline to avoid Vite module resolution issues
+const DEFAULT_SCHEMA_OPTIONS: SchemaOptions = {
+  databaseType: 'postgresql',
+  includeAuditFields: true,
+  includeSoftDelete: true,
+  includeEncryptionMarkers: true,
+  namingConvention: 'snake_case',
+  includeIndexes: true,
+  includeComments: true,
+  healthcareCompliance: true,
+};
+
+const DEFAULT_TRANSFORM_OPTIONS: TransformOptions = {
+  generateTranslationFile: true,
+  translationFileFormat: 'xslt',
+  includeComments: true,
+  prettyPrint: true,
+  validateOutput: true,
+  preserveExtensions: false,
+};
 
 export async function generateSchema(
   mode: 'requirements' | 'existing',

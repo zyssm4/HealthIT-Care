@@ -1,18 +1,40 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   TransformResponse,
   TransformOptions,
   MessageFormat,
-  DEFAULT_TRANSFORM_OPTIONS,
-  MESSAGE_FORMATS,
-  SUPPORTED_TRANSFORMATIONS,
 } from '@healthit-care/shared';
 import { transformMessage } from '../services/api';
 
 type ResultTab = 'output' | 'translation' | 'mappings' | 'warnings';
 
-const MessageTransformer: React.FC = () => {
+const DEFAULT_TRANSFORM_OPTIONS: TransformOptions = {
+  generateTranslationFile: true,
+  translationFileFormat: 'xslt',
+  includeComments: true,
+  prettyPrint: true,
+  validateOutput: true,
+  preserveExtensions: false,
+};
+
+const MESSAGE_FORMATS: { id: MessageFormat; name: string; description: string }[] = [
+  { id: 'hl7v2', name: 'HL7 v2.x', description: 'HL7 Version 2 messages' },
+  { id: 'fhir-json', name: 'FHIR JSON', description: 'FHIR R4 in JSON format' },
+  { id: 'fhir-xml', name: 'FHIR XML', description: 'FHIR R4 in XML format' },
+  { id: 'cda', name: 'CDA', description: 'Clinical Document Architecture' },
+  { id: 'csv', name: 'CSV', description: 'Comma-separated values' },
+];
+
+const SUPPORTED_TRANSFORMATIONS: { from: MessageFormat; to: MessageFormat[] }[] = [
+  { from: 'hl7v2', to: ['fhir-json', 'fhir-xml', 'cda', 'csv'] },
+  { from: 'fhir-json', to: ['hl7v2', 'fhir-xml', 'cda', 'csv'] },
+  { from: 'fhir-xml', to: ['hl7v2', 'fhir-json', 'cda'] },
+  { from: 'cda', to: ['fhir-json', 'fhir-xml'] },
+  { from: 'csv', to: ['fhir-json', 'hl7v2'] },
+];
+
+const MessageTransformer = () => {
   const [inputMessage, setInputMessage] = useState('');
   const [inputFormat, setInputFormat] = useState<MessageFormat>('hl7v2');
   const [outputFormat, setOutputFormat] = useState<MessageFormat>('fhir-json');
@@ -110,7 +132,7 @@ const MessageTransformer: React.FC = () => {
               >
                 {getAvailableOutputFormats().map(format => (
                   <option key={format} value={format}>
-                    {MESSAGE_FORMATS[format].name}
+                    {MESSAGE_FORMATS.find(f => f.id === format)?.name || format}
                   </option>
                 ))}
               </select>

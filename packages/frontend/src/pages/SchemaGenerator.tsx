@@ -1,16 +1,26 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   SchemaResponse,
   SchemaOptions,
-  DEFAULT_SCHEMA_OPTIONS,
 } from '@healthit-care/shared';
 import { generateSchema } from '../services/api';
 
 type Mode = 'requirements' | 'existing';
 type ResultTab = 'schema' | 'explanations' | 'warnings' | 'suggestions';
 
-const SchemaGenerator: React.FC = () => {
+const DEFAULT_SCHEMA_OPTIONS: SchemaOptions = {
+  databaseType: 'postgresql',
+  includeAuditFields: true,
+  includeSoftDelete: true,
+  includeEncryptionMarkers: true,
+  namingConvention: 'snake_case',
+  includeIndexes: true,
+  includeComments: true,
+  healthcareCompliance: true,
+};
+
+const SchemaGenerator = () => {
   const [mode, setMode] = useState<Mode>('requirements');
   const [input, setInput] = useState('');
   const [additionalRequests, setAdditionalRequests] = useState('');
