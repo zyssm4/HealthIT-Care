@@ -19,7 +19,7 @@ services:
         value: "*"
 
   # Frontend Static Site
-  - type: static_site
+  - type: static
     name: healthit-care-frontend
     buildCommand: npm install && cd packages/shared && npm run build && cd ../frontend && npm run build
     staticPublishPath: packages/frontend/dist
