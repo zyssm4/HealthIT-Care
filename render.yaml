@@ -5,7 +5,7 @@ services:
   # Backend API Service
   - type: web
     name: healthit-care-api
-    env: node
+    runtime: node
     plan: free
     buildCommand: npm install && cd packages/shared && npm run build && cd ../backend && npm run build
     startCommand: cd packages/backend && npm start
@@ -16,15 +16,11 @@ services:
       - key: PORT
         value: 3001
       - key: CORS_ORIGIN
-        fromService:
-          type: web
-          name: healthit-care-frontend
-          property: host
+        value: "*"
 
-  # Frontend Static Site (static sites are free by default)
-  - type: web
+  # Frontend Static Site
+  - type: static_site
     name: healthit-care-frontend
-    env: static
     buildCommand: npm install && cd packages/shared && npm run build && cd ../frontend && npm run build
     staticPublishPath: packages/frontend/dist
     headers:
@@ -40,4 +36,4 @@ services:
         fromService:
           type: web
           name: healthit-care-api
-          property: hostport
+          property: host
