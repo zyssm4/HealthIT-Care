@@ -21,11 +21,10 @@ services:
           name: healthit-care-frontend
           property: host
 
-  # Frontend Static Site
+  # Frontend Static Site (static sites are free by default)
   - type: web
     name: healthit-care-frontend
     env: static
-    plan: free
     buildCommand: npm install && cd packages/shared && npm run build && cd ../frontend && npm run build
     staticPublishPath: packages/frontend/dist
     headers:
