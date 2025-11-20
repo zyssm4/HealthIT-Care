@@ -1,0 +1,44 @@
+# Render.com Blueprint for HealthIT-Care
+# Connect your GitHub repo to Render and it will auto-detect this file
+
+services:
+  # Backend API Service
+  - type: web
+    name: healthit-care-api
+    env: node
+    plan: free
+    buildCommand: npm install && cd packages/shared && npm run build && cd ../backend && npm run build
+    startCommand: cd packages/backend && npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: CORS_ORIGIN
+        fromService:
+          type: web
+          name: healthit-care-frontend
+          property: host
+
+  # Frontend Static Site
+  - type: web
+    name: healthit-care-frontend
+    env: static
+    plan: free
+    buildCommand: npm install && cd packages/shared && npm run build && cd ../frontend && npm run build
+    staticPublishPath: packages/frontend/dist
+    headers:
+      - path: /*
+        name: Cache-Control
+        value: no-cache
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+    envVars:
+      - key: VITE_API_URL
+        fromService:
+          type: web
+          name: healthit-care-api
+          property: hostport

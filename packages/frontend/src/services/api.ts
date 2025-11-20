@@ -10,7 +10,10 @@ import {
   DEFAULT_TRANSFORM_OPTIONS,
 } from '@healthit-care/shared';
 
-const API_BASE = '/api/v1';
+// Use environment variable for API URL in production, or relative path for development
+const API_BASE = import.meta.env.VITE_API_URL
+  ? `${import.meta.env.VITE_API_URL}/api/v1`
+  : '/api/v1';
 
 export async function generateSchema(
   mode: 'requirements' | 'existing',
