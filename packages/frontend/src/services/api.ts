@@ -9,9 +9,12 @@ import {
 } from '@healthit-care/shared';
 
 // Use environment variable for API URL in production, or relative path for development
-const API_BASE = import.meta.env.VITE_API_URL
-  ? `${import.meta.env.VITE_API_URL}/api/v1`
-  : '/api/v1';
+// Render's fromService.host only provides hostname, so we add protocol if missing
+let apiBaseUrl = import.meta.env.VITE_API_URL;
+if (apiBaseUrl && !apiBaseUrl.startsWith('http')) {
+  apiBaseUrl = `https://${apiBaseUrl}`;
+}
+const API_BASE = apiBaseUrl ? `${apiBaseUrl}/api/v1` : '/api/v1';
 
 // Default options defined inline to avoid Vite module resolution issues
 const DEFAULT_SCHEMA_OPTIONS: SchemaOptions = {
