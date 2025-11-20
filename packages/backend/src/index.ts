@@ -3,6 +3,12 @@ import cors from 'cors';
 import helmet from 'helmet';
 import { schemaRouter } from './api/schema';
 import { transformRouter } from './api/transform';
+import docsRouter from './api/docs';
+import codemapRouter from './api/codemap';
+import testgenRouter from './api/testgen';
+import configdiffRouter from './api/configdiff';
+import changesRouter from './api/changes';
+import validateRouter from './api/validate';
 import { errorHandler } from './api/middleware';
 
 const app = express();
@@ -27,7 +33,16 @@ app.get('/health', (req, res) => {
       status: 'healthy',
       service: 'healthit-care-api',
       version: '1.0.0',
-      applications: ['schema-generator', 'message-transformer'],
+      applications: [
+        'schema-generator',
+        'message-transformer',
+        'interface-docs',
+        'code-mapper',
+        'test-generator',
+        'config-diff',
+        'change-tracker',
+        'message-validator',
+      ],
     },
     meta: {
       timestamp: new Date().toISOString(),
@@ -39,6 +54,12 @@ app.get('/health', (req, res) => {
 // API routes
 app.use('/api/v1/schema', schemaRouter);
 app.use('/api/v1/transform', transformRouter);
+app.use('/api/v1/docs', docsRouter);
+app.use('/api/v1/codemap', codemapRouter);
+app.use('/api/v1/testgen', testgenRouter);
+app.use('/api/v1/configdiff', configdiffRouter);
+app.use('/api/v1/changes', changesRouter);
+app.use('/api/v1/validate', validateRouter);
 
 // Error handling
 app.use(errorHandler);
@@ -64,6 +85,12 @@ app.listen(PORT, () => {
   console.log(`Available APIs:`);
   console.log(`  - Schema Generator: /api/v1/schema`);
   console.log(`  - Message Transformer: /api/v1/transform`);
+  console.log(`  - Interface Docs: /api/v1/docs`);
+  console.log(`  - Code Mapper: /api/v1/codemap`);
+  console.log(`  - Test Generator: /api/v1/testgen`);
+  console.log(`  - Config Diff: /api/v1/configdiff`);
+  console.log(`  - Change Tracker: /api/v1/changes`);
+  console.log(`  - Message Validator: /api/v1/validate`);
 });
 
 export default app;

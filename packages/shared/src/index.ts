@@ -298,3 +298,247 @@ export const DEFAULT_TRANSFORM_OPTIONS: TransformOptions = {
   validateOutput: true,
   preserveExtensions: false,
 };
+
+// =============================================================================
+// Interface Documentation Generator Types
+// =============================================================================
+
+export interface InterfaceDoc {
+  id: string;
+  name: string;
+  description: string;
+  sourceSystem: string;
+  targetSystem: string;
+  protocol: 'HL7v2' | 'FHIR' | 'REST' | 'SOAP' | 'FILE' | 'DATABASE';
+  direction: 'inbound' | 'outbound' | 'bidirectional';
+  messageTypes: string[];
+  endpoints: EndpointConfig[];
+  dataElements: DataElement[];
+  notes?: string;
+}
+
+export interface EndpointConfig {
+  name: string;
+  type: 'sender' | 'receiver';
+  host?: string;
+  port?: number;
+  path?: string;
+  authentication?: string;
+}
+
+export interface DataElement {
+  name: string;
+  sourcePath: string;
+  targetPath: string;
+  dataType: string;
+  required: boolean;
+  description?: string;
+}
+
+export interface DocGeneratorRequest {
+  interfaces: InterfaceDoc[];
+  outputFormat: 'markdown' | 'html' | 'json';
+  includeDataFlowDiagram: boolean;
+  includeEndpointCatalog: boolean;
+}
+
+export interface DocGeneratorResponse {
+  id: string;
+  documentation: string;
+  format: string;
+  interfaceCount: number;
+  generatedAt: string;
+}
+
+// =============================================================================
+// Code Set / Terminology Mapper Types
+// =============================================================================
+
+export type CodeSystem = 'ICD10' | 'ICD9' | 'SNOMED' | 'LOINC' | 'CPT' | 'HCPCS' | 'RxNorm' | 'NDC' | 'LOCAL';
+
+export interface CodeMapping {
+  sourceCode: string;
+  sourceSystem: CodeSystem;
+  sourceDisplay: string;
+  targetCode: string;
+  targetSystem: CodeSystem;
+  targetDisplay: string;
+  equivalence: 'equivalent' | 'wider' | 'narrower' | 'inexact' | 'unmatched';
+  notes?: string;
+}
+
+export interface CodeMapperRequest {
+  sourceCodes: Array<{ code: string; system: CodeSystem; display?: string }>;
+  targetSystem: CodeSystem;
+  outputFormat: 'json' | 'csv' | 'cloverleaf-table';
+}
+
+export interface CodeMapperResponse {
+  id: string;
+  mappings: CodeMapping[];
+  unmappedCodes: string[];
+  outputFile: string;
+  statistics: {
+    total: number;
+    mapped: number;
+    unmapped: number;
+    accuracy: number;
+  };
+  generatedAt: string;
+}
+
+// =============================================================================
+// Integration Test Case Generator Types
+// =============================================================================
+
+export interface TestCase {
+  id: string;
+  name: string;
+  description: string;
+  interfaceName: string;
+  inputMessage: string;
+  expectedOutput: string;
+  validationRules: ValidationRule[];
+  tags: string[];
+}
+
+export interface ValidationRule {
+  field: string;
+  operator: 'equals' | 'contains' | 'exists' | 'notEmpty' | 'matches';
+  expectedValue?: string;
+  description: string;
+}
+
+export interface TestGeneratorRequest {
+  interfaceSpec: {
+    name: string;
+    messageType: string;
+    format: MessageFormat;
+    sampleMessage?: string;
+  };
+  testScenarios: Array<'happy-path' | 'missing-required' | 'invalid-data' | 'edge-cases'>;
+  count: number;
+}
+
+export interface TestGeneratorResponse {
+  id: string;
+  testCases: TestCase[];
+  testSuite: string;
+  format: string;
+  generatedAt: string;
+}
+
+// =============================================================================
+// Configuration Diff / Migration Tool Types
+// =============================================================================
+
+export interface ConfigFile {
+  name: string;
+  environment: 'dev' | 'test' | 'staging' | 'prod';
+  content: string;
+  type: 'xlt' | 'properties' | 'json' | 'xml' | 'tcl';
+}
+
+export interface ConfigDiff {
+  field: string;
+  sourceValue: string;
+  targetValue: string;
+  changeType: 'added' | 'removed' | 'modified';
+  impact: 'low' | 'medium' | 'high';
+}
+
+export interface ConfigDiffRequest {
+  sourceConfig: ConfigFile;
+  targetConfig: ConfigFile;
+  ignoreWhitespace: boolean;
+  ignoreComments: boolean;
+}
+
+export interface ConfigDiffResponse {
+  id: string;
+  differences: ConfigDiff[];
+  summary: {
+    added: number;
+    removed: number;
+    modified: number;
+    unchanged: number;
+  };
+  migrationScript?: string;
+  report: string;
+  generatedAt: string;
+}
+
+// =============================================================================
+// Change Request Tracker Types
+// =============================================================================
+
+export interface ChangeRequest {
+  id: string;
+  title: string;
+  description: string;
+  requestor: string;
+  priority: 'low' | 'medium' | 'high' | 'critical';
+  status: 'new' | 'analysis' | 'approved' | 'in-progress' | 'testing' | 'deployed' | 'closed';
+  affectedSystems: string[];
+  affectedInterfaces: string[];
+  estimatedEffort: string;
+  targetDate?: string;
+  notes: string[];
+  createdAt: string;
+  updatedAt: string;
+}
+
+export interface ChangeRequestStats {
+  total: number;
+  byStatus: Record<string, number>;
+  byPriority: Record<string, number>;
+  recentlyUpdated: ChangeRequest[];
+}
+
+// =============================================================================
+// HL7/FHIR Message Validator Types
+// =============================================================================
+
+export interface ValidationProfile {
+  name: string;
+  format: MessageFormat;
+  rules: MessageValidationRule[];
+}
+
+export interface MessageValidationRule {
+  id: string;
+  field: string;
+  rule: 'required' | 'format' | 'length' | 'value-set' | 'regex' | 'custom';
+  parameters?: Record<string, any>;
+  severity: 'error' | 'warning' | 'info';
+  message: string;
+}
+
+export interface ValidatorRequest {
+  message: string;
+  format: MessageFormat;
+  profile?: string;
+  customRules?: MessageValidationRule[];
+}
+
+export interface ValidationIssue {
+  severity: 'error' | 'warning' | 'info';
+  field: string;
+  message: string;
+  value?: string;
+  rule: string;
+}
+
+export interface ValidatorResponse {
+  id: string;
+  isValid: boolean;
+  issues: ValidationIssue[];
+  score: number;
+  summary: {
+    errors: number;
+    warnings: number;
+    info: number;
+  };
+  parsedStructure?: object;
+  generatedAt: string;
+}

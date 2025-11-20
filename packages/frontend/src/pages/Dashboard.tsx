@@ -43,6 +43,108 @@ const Dashboard: React.FC = () => {
           </ul>
           <span className="app-cta">Open Application</span>
         </Link>
+
+        <Link to="/interface-docs" className="app-card">
+          <div className="app-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h2>Interface Documentation</h2>
+          <p>Generate comprehensive documentation for healthcare interfaces with data flow diagrams.</p>
+          <ul className="app-features">
+            <li>Markdown/HTML/JSON output</li>
+            <li>Data flow diagrams</li>
+            <li>Endpoint catalogs</li>
+            <li>Data element mapping</li>
+          </ul>
+          <span className="app-cta">Open Application</span>
+        </Link>
+
+        <Link to="/code-mapper" className="app-card">
+          <div className="app-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M8 7h12M8 12h12M8 17h12M4 7h.01M4 12h.01M4 17h.01" />
+            </svg>
+          </div>
+          <h2>Code Set Mapper</h2>
+          <p>Map healthcare codes between standard terminologies like ICD-10, SNOMED, and LOINC.</p>
+          <ul className="app-features">
+            <li>Multi-system support</li>
+            <li>Cloverleaf table export</li>
+            <li>CSV/JSON output</li>
+            <li>Mapping accuracy stats</li>
+          </ul>
+          <span className="app-cta">Open Application</span>
+        </Link>
+
+        <Link to="/test-generator" className="app-card">
+          <div className="app-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
+            </svg>
+          </div>
+          <h2>Test Case Generator</h2>
+          <p>Generate comprehensive test cases for healthcare integration interfaces.</p>
+          <ul className="app-features">
+            <li>Happy path scenarios</li>
+            <li>Edge case testing</li>
+            <li>Validation rules</li>
+            <li>Test suite export</li>
+          </ul>
+          <span className="app-cta">Open Application</span>
+        </Link>
+
+        <Link to="/config-diff" className="app-card">
+          <div className="app-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 17V7m0 10a2 2 0 01-2 2H5a2 2 0 01-2-2V7a2 2 0 012-2h2a2 2 0 012 2m0 10a2 2 0 002 2h2a2 2 0 002-2M9 7a2 2 0 012-2h2a2 2 0 012 2m0 10V7m0 10a2 2 0 002 2h2a2 2 0 002-2V7a2 2 0 00-2-2h-2a2 2 0 00-2 2" />
+            </svg>
+          </div>
+          <h2>Config Diff Tool</h2>
+          <p>Compare configuration files and generate migration scripts between environments.</p>
+          <ul className="app-features">
+            <li>Multi-format support</li>
+            <li>Impact assessment</li>
+            <li>Migration scripts</li>
+            <li>Detailed reports</li>
+          </ul>
+          <span className="app-cta">Open Application</span>
+        </Link>
+
+        <Link to="/change-tracker" className="app-card">
+          <div className="app-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+            </svg>
+          </div>
+          <h2>Change Request Tracker</h2>
+          <p>Track and manage interface change requests with status updates and activity logs.</p>
+          <ul className="app-features">
+            <li>Priority management</li>
+            <li>Status workflow</li>
+            <li>Activity logging</li>
+            <li>Report generation</li>
+          </ul>
+          <span className="app-cta">Open Application</span>
+        </Link>
+
+        <Link to="/message-validator" className="app-card">
+          <div className="app-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+            </svg>
+          </div>
+          <h2>Message Validator</h2>
+          <p>Validate HL7 v2 and FHIR messages against standards and custom profiles.</p>
+          <ul className="app-features">
+            <li>HL7v2/FHIR/CDA support</li>
+            <li>Validation scoring</li>
+            <li>Issue categorization</li>
+            <li>Structure parsing</li>
+          </ul>
+          <span className="app-cta">Open Application</span>
+        </Link>
       </div>
 
       <footer className="dashboard-footer">
