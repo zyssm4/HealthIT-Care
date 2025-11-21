@@ -153,7 +153,7 @@ export class TranslationTableService {
       jsonOutput._comments = table.entries
         .filter(e => e.description)
         .reduce((acc, e) => {
-          acc[e.key] = e.description;
+          acc[e.key] = e.description!;
           return acc;
         }, {} as Record<string, string>);
     }
