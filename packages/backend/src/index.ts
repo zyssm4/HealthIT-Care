@@ -9,6 +9,10 @@ import testgenRouter from './api/testgen';
 import configdiffRouter from './api/configdiff';
 import changesRouter from './api/changes';
 import validateRouter from './api/validate';
+import hl7ParserRouter from './api/hl7Parser';
+import translationTableRouter from './api/translationTable';
+import fhirExplorerRouter from './api/fhirExplorer';
+import auditLogRouter from './api/auditLogAnalyzer';
 import { errorHandler } from './api/middleware';
 
 const app = express();
@@ -42,6 +46,10 @@ app.get('/health', (req, res) => {
         'config-diff',
         'change-tracker',
         'message-validator',
+        'hl7-parser',
+        'translation-table',
+        'fhir-explorer',
+        'audit-log-analyzer',
       ],
     },
     meta: {
@@ -60,6 +68,10 @@ app.use('/api/v1/testgen', testgenRouter);
 app.use('/api/v1/configdiff', configdiffRouter);
 app.use('/api/v1/changes', changesRouter);
 app.use('/api/v1/validate', validateRouter);
+app.use('/api/v1/hl7parser', hl7ParserRouter);
+app.use('/api/v1/xlttable', translationTableRouter);
+app.use('/api/v1/fhir', fhirExplorerRouter);
+app.use('/api/v1/logs', auditLogRouter);
 
 // Error handling
 app.use(errorHandler);
@@ -91,6 +103,10 @@ app.listen(PORT, () => {
   console.log(`  - Config Diff: /api/v1/configdiff`);
   console.log(`  - Change Tracker: /api/v1/changes`);
   console.log(`  - Message Validator: /api/v1/validate`);
+  console.log(`  - HL7v2 Parser: /api/v1/hl7parser`);
+  console.log(`  - Translation Table: /api/v1/xlttable`);
+  console.log(`  - FHIR Explorer: /api/v1/fhir`);
+  console.log(`  - Audit Log Analyzer: /api/v1/logs`);
 });
 
 export default app;

@@ -8,6 +8,10 @@ import TestCaseGenerator from './pages/TestCaseGenerator';
 import ConfigDiff from './pages/ConfigDiff';
 import ChangeTracker from './pages/ChangeTracker';
 import MessageValidator from './pages/MessageValidator';
+import HL7Parser from './pages/HL7Parser';
+import TranslationTable from './pages/TranslationTable';
+import FHIRExplorer from './pages/FHIRExplorer';
+import AuditLogAnalyzer from './pages/AuditLogAnalyzer';
 
 function App() {
   return (
@@ -22,6 +26,10 @@ function App() {
         <Route path="/config-diff" element={<ConfigDiff />} />
         <Route path="/change-tracker" element={<ChangeTracker />} />
         <Route path="/message-validator" element={<MessageValidator />} />
+        <Route path="/hl7-parser" element={<HL7Parser />} />
+        <Route path="/translation-table" element={<TranslationTable />} />
+        <Route path="/fhir-explorer" element={<FHIRExplorer />} />
+        <Route path="/audit-logs" element={<AuditLogAnalyzer />} />
       </Routes>
     </BrowserRouter>
   );

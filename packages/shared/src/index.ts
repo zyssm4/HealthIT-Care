@@ -542,3 +542,254 @@ export interface ValidatorResponse {
   parsedStructure?: object;
   generatedAt: string;
 }
+
+// =============================================================================
+// HL7v2 Message Viewer/Parser Types
+// =============================================================================
+
+export interface HL7v2Segment {
+  name: string;
+  sequence: number;
+  fields: HL7v2Field[];
+  raw: string;
+}
+
+export interface HL7v2Field {
+  position: number;
+  name: string;
+  value: string;
+  components: HL7v2Component[];
+  dataType?: string;
+  maxLength?: number;
+  required?: boolean;
+}
+
+export interface HL7v2Component {
+  position: number;
+  value: string;
+  subcomponents: string[];
+}
+
+export interface HL7v2ParseRequest {
+  message: string;
+  version?: '2.3' | '2.4' | '2.5' | '2.5.1' | '2.6' | '2.7' | '2.8';
+  includeFieldNames?: boolean;
+  highlightErrors?: boolean;
+}
+
+export interface HL7v2ParseResponse {
+  id: string;
+  messageType: string;
+  triggerEvent: string;
+  version: string;
+  sendingApp: string;
+  sendingFacility: string;
+  receivingApp: string;
+  receivingFacility: string;
+  timestamp: string;
+  controlId: string;
+  segments: HL7v2Segment[];
+  segmentCount: number;
+  errors: HL7v2ParseError[];
+  raw: string;
+  generatedAt: string;
+}
+
+export interface HL7v2ParseError {
+  segment: string;
+  field: number;
+  component?: number;
+  message: string;
+  severity: 'error' | 'warning';
+}
+
+// =============================================================================
+// Translation Table Generator Types
+// =============================================================================
+
+export interface TranslationTableEntry {
+  key: string;
+  value: string;
+  description?: string;
+  category?: string;
+  active: boolean;
+}
+
+export interface TranslationTable {
+  id: string;
+  name: string;
+  description: string;
+  sourceSystem: string;
+  targetSystem: string;
+  entries: TranslationTableEntry[];
+  metadata: {
+    version: string;
+    lastModified: string;
+    author: string;
+  };
+}
+
+export interface TranslationTableRequest {
+  name: string;
+  description?: string;
+  sourceSystem: string;
+  targetSystem: string;
+  entries: Array<{
+    key: string;
+    value: string;
+    description?: string;
+    category?: string;
+  }>;
+  outputFormat: 'cloverleaf-xlt' | 'json' | 'csv' | 'xml' | 'properties';
+  includeComments: boolean;
+}
+
+export interface TranslationTableResponse {
+  id: string;
+  table: TranslationTable;
+  outputFile: {
+    filename: string;
+    content: string;
+    format: string;
+  };
+  statistics: {
+    totalEntries: number;
+    categories: number;
+    duplicateKeys: string[];
+  };
+  generatedAt: string;
+}
+
+// =============================================================================
+// FHIR Resource Explorer Types
+// =============================================================================
+
+export type FHIRResourceType =
+  | 'Patient'
+  | 'Practitioner'
+  | 'Organization'
+  | 'Encounter'
+  | 'Observation'
+  | 'Condition'
+  | 'Medication'
+  | 'MedicationRequest'
+  | 'DiagnosticReport'
+  | 'Procedure'
+  | 'AllergyIntolerance'
+  | 'Immunization'
+  | 'DocumentReference'
+  | 'Bundle';
+
+export interface FHIRReference {
+  reference: string;
+  display?: string;
+  type?: string;
+}
+
+export interface FHIRResourceNode {
+  path: string;
+  name: string;
+  value: any;
+  dataType: string;
+  children: FHIRResourceNode[];
+  isArray: boolean;
+  isReference: boolean;
+  referenceTarget?: string;
+}
+
+export interface FHIRExploreRequest {
+  resource: string;
+  format: 'json' | 'xml';
+  validateProfile?: string;
+  resolveReferences?: boolean;
+}
+
+export interface FHIRExploreResponse {
+  id: string;
+  resourceType: FHIRResourceType;
+  resourceId: string;
+  version: string;
+  lastUpdated?: string;
+  tree: FHIRResourceNode;
+  references: FHIRReference[];
+  validation: {
+    isValid: boolean;
+    profile?: string;
+    issues: ValidationIssue[];
+  };
+  metadata: {
+    elementCount: number;
+    referenceCount: number;
+    extensionCount: number;
+  };
+  raw: string;
+  generatedAt: string;
+}
+
+// =============================================================================
+// Audit Log Analyzer Types
+// =============================================================================
+
+export type LogSource = 'cloverleaf' | 'mirth' | 'rhapsody' | 'generic' | 'syslog';
+
+export interface LogEntry {
+  timestamp: string;
+  level: 'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL';
+  source: string;
+  message: string;
+  messageId?: string;
+  interface?: string;
+  details?: Record<string, any>;
+}
+
+export interface LogPattern {
+  name: string;
+  count: number;
+  firstOccurrence: string;
+  lastOccurrence: string;
+  sampleMessages: string[];
+  severity: 'info' | 'warning' | 'critical';
+}
+
+export interface LogAnalysisRequest {
+  logs: string;
+  source: LogSource;
+  timeRange?: {
+    start: string;
+    end: string;
+  };
+  filterLevel?: Array<'DEBUG' | 'INFO' | 'WARN' | 'ERROR' | 'FATAL'>;
+  filterInterface?: string;
+  groupBy?: 'hour' | 'day' | 'interface' | 'error-type';
+}
+
+export interface LogAnalysisResponse {
+  id: string;
+  entries: LogEntry[];
+  summary: {
+    totalEntries: number;
+    byLevel: Record<string, number>;
+    byInterface: Record<string, number>;
+    timeRange: {
+      start: string;
+      end: string;
+    };
+  };
+  patterns: LogPattern[];
+  errors: {
+    count: number;
+    topErrors: Array<{
+      message: string;
+      count: number;
+      lastOccurrence: string;
+    }>;
+  };
+  timeline: Array<{
+    timestamp: string;
+    count: number;
+    errors: number;
+  }>;
+  report: string;
+  generatedAt: string;
+}
+

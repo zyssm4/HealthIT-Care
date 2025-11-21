@@ -145,6 +145,74 @@ const Dashboard: React.FC = () => {
           </ul>
           <span className="app-cta">Open Application</span>
         </Link>
+
+        <Link to="/hl7-parser" className="app-card">
+          <div className="app-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+            </svg>
+          </div>
+          <h2>HL7v2 Message Viewer</h2>
+          <p>Parse and visualize HL7v2 messages with field names, segments, and component structure.</p>
+          <ul className="app-features">
+            <li>Segment tree view</li>
+            <li>Field name lookup</li>
+            <li>Component breakdown</li>
+            <li>Error highlighting</li>
+          </ul>
+          <span className="app-cta">Open Application</span>
+        </Link>
+
+        <Link to="/translation-table" className="app-card">
+          <div className="app-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M3 10h18M3 14h18M3 18h18M3 6h18" />
+            </svg>
+          </div>
+          <h2>Translation Table Generator</h2>
+          <p>Generate translation tables for Cloverleaf and other integration engines.</p>
+          <ul className="app-features">
+            <li>Cloverleaf XLT export</li>
+            <li>JSON/CSV/XML formats</li>
+            <li>Category grouping</li>
+            <li>Comments support</li>
+          </ul>
+          <span className="app-cta">Open Application</span>
+        </Link>
+
+        <Link to="/fhir-explorer" className="app-card">
+          <div className="app-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0zM10 7v6m-3-3h6" />
+            </svg>
+          </div>
+          <h2>FHIR Resource Explorer</h2>
+          <p>Visualize and validate FHIR resources with tree view and reference tracking.</p>
+          <ul className="app-features">
+            <li>Interactive tree view</li>
+            <li>Reference extraction</li>
+            <li>Profile validation</li>
+            <li>JSON/XML support</li>
+          </ul>
+          <span className="app-cta">Open Application</span>
+        </Link>
+
+        <Link to="/audit-logs" className="app-card">
+          <div className="app-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+              <path d="M9 17v-2m3 2v-4m3 4v-6m2 10H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+            </svg>
+          </div>
+          <h2>Audit Log Analyzer</h2>
+          <p>Analyze integration engine logs to find patterns, errors, and generate reports.</p>
+          <ul className="app-features">
+            <li>Multi-source support</li>
+            <li>Error pattern detection</li>
+            <li>Timeline visualization</li>
+            <li>Report generation</li>
+          </ul>
+          <span className="app-cta">Open Application</span>
+        </Link>
       </div>
 
       <footer className="dashboard-footer">
