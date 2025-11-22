@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import {
   AzureArchitectResponse,
   ArchitectureTemplate,
-  AzureBestPractice,
   HealthcareUseCase,
 } from '@healthit-care/shared';
 
@@ -21,7 +20,6 @@ export default function AzureArchitect() {
   const [selectedUseCase, setSelectedUseCase] = useState<HealthcareUseCase | ''>('');
   const [result, setResult] = useState<AzureArchitectResponse | null>(null);
   const [architectures, setArchitectures] = useState<ArchitectureTemplate[]>([]);
-  const [bestPractices, setBestPractices] = useState<AzureBestPractice[]>([]);
   const [useCases, setUseCases] = useState<UseCase[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -32,18 +30,15 @@ export default function AzureArchitect() {
   useEffect(() => {
     const loadData = async () => {
       try {
-        const [archRes, bpRes, ucRes] = await Promise.all([
+        const [archRes, ucRes] = await Promise.all([
           fetch(`${API_BASE}/azure/architectures`),
-          fetch(`${API_BASE}/azure/best-practices`),
           fetch(`${API_BASE}/azure/use-cases`),
         ]);
 
         const archData = await archRes.json();
-        const bpData = await bpRes.json();
         const ucData = await ucRes.json();
 
         if (archData.success) setArchitectures(archData.data);
-        if (bpData.success) setBestPractices(bpData.data);
         if (ucData.success) setUseCases(ucData.data);
       } catch (err) {
         console.error('Failed to load initial data');
