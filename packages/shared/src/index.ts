@@ -793,3 +793,124 @@ export interface LogAnalysisResponse {
   generatedAt: string;
 }
 
+// =============================================================================
+// Azure Cloud Architect Hub Types
+// =============================================================================
+
+export type AzureServiceCategory =
+  | 'compute'
+  | 'storage'
+  | 'networking'
+  | 'security'
+  | 'database'
+  | 'analytics'
+  | 'ai-ml'
+  | 'integration'
+  | 'healthcare'
+  | 'identity'
+  | 'monitoring';
+
+export type HealthcareUseCase =
+  | 'fhir-api'
+  | 'dicom-imaging'
+  | 'integration-engine'
+  | 'data-lake'
+  | 'disaster-recovery'
+  | 'hybrid-cloud'
+  | 'ehr-integration'
+  | 'iot-medical-devices'
+  | 'ai-clinical-insights'
+  | 'patient-portal';
+
+export interface AzureService {
+  id: string;
+  name: string;
+  category: AzureServiceCategory;
+  description: string;
+  healthcareRelevance: string;
+  hipaaCompliant: boolean;
+  pricingTier: 'free' | 'low' | 'medium' | 'high';
+  documentationUrl: string;
+}
+
+export interface ArchitectureTemplate {
+  id: string;
+  name: string;
+  description: string;
+  useCase: HealthcareUseCase;
+  services: string[];
+  diagram: string;
+  considerations: string[];
+  estimatedMonthlyCost: string;
+  complianceNotes: string[];
+}
+
+export interface AzureBestPractice {
+  id: string;
+  category: 'security' | 'compliance' | 'performance' | 'cost' | 'operations' | 'networking';
+  title: string;
+  description: string;
+  implementation: string;
+  priority: 'critical' | 'high' | 'medium' | 'low';
+}
+
+export interface AzureQuestion {
+  id: string;
+  question: string;
+  category: string;
+  answer: string;
+  relatedServices: string[];
+  relatedArchitectures: string[];
+  references: string[];
+}
+
+export interface AzureArchitectRequest {
+  query: string;
+  context?: {
+    useCase?: HealthcareUseCase;
+    existingServices?: string[];
+    complianceRequirements?: string[];
+    budgetRange?: 'low' | 'medium' | 'high';
+  };
+}
+
+export interface AzureArchitectResponse {
+  id: string;
+  query: string;
+  answer: string;
+  recommendedServices: AzureService[];
+  relevantArchitectures: ArchitectureTemplate[];
+  bestPractices: AzureBestPractice[];
+  additionalResources: Array<{
+    title: string;
+    url: string;
+    type: 'documentation' | 'tutorial' | 'sample' | 'pricing';
+  }>;
+  generatedAt: string;
+}
+
+export interface ServiceRecommendationRequest {
+  useCase: HealthcareUseCase;
+  requirements: {
+    hipaaRequired: boolean;
+    highAvailability: boolean;
+    multiRegion: boolean;
+    hybridConnectivity: boolean;
+    budgetSensitive: boolean;
+  };
+}
+
+export interface ServiceRecommendationResponse {
+  id: string;
+  useCase: HealthcareUseCase;
+  coreServices: AzureService[];
+  optionalServices: AzureService[];
+  architecture: ArchitectureTemplate;
+  estimatedCost: {
+    monthly: string;
+    breakdown: Array<{ service: string; cost: string }>;
+  };
+  implementationSteps: string[];
+  generatedAt: string;
+}
+

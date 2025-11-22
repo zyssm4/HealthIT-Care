@@ -12,6 +12,7 @@ import HL7Parser from './pages/HL7Parser';
 import TranslationTable from './pages/TranslationTable';
 import FHIRExplorer from './pages/FHIRExplorer';
 import AuditLogAnalyzer from './pages/AuditLogAnalyzer';
+import AzureArchitect from './pages/AzureArchitect';
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
         <Route path="/translation-table" element={<TranslationTable />} />
         <Route path="/fhir-explorer" element={<FHIRExplorer />} />
         <Route path="/audit-logs" element={<AuditLogAnalyzer />} />
+        <Route path="/azure-architect" element={<AzureArchitect />} />
       </Routes>
     </BrowserRouter>
   );

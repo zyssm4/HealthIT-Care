@@ -13,6 +13,7 @@ import hl7ParserRouter from './api/hl7Parser';
 import translationTableRouter from './api/translationTable';
 import fhirExplorerRouter from './api/fhirExplorer';
 import auditLogRouter from './api/auditLogAnalyzer';
+import azureArchitectRouter from './api/azureArchitect';
 import { errorHandler } from './api/middleware';
 
 const app = express();
@@ -50,6 +51,7 @@ app.get('/health', (req, res) => {
         'translation-table',
         'fhir-explorer',
         'audit-log-analyzer',
+        'azure-architect',
       ],
     },
     meta: {
@@ -72,6 +74,7 @@ app.use('/api/v1/hl7parser', hl7ParserRouter);
 app.use('/api/v1/xlttable', translationTableRouter);
 app.use('/api/v1/fhir', fhirExplorerRouter);
 app.use('/api/v1/logs', auditLogRouter);
+app.use('/api/v1/azure', azureArchitectRouter);
 
 // Error handling
 app.use(errorHandler);
@@ -107,6 +110,7 @@ app.listen(PORT, () => {
   console.log(`  - Translation Table: /api/v1/xlttable`);
   console.log(`  - FHIR Explorer: /api/v1/fhir`);
   console.log(`  - Audit Log Analyzer: /api/v1/logs`);
+  console.log(`  - Azure Architect Hub: /api/v1/azure`);
 });
 
 export default app;
